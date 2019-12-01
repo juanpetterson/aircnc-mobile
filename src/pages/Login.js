@@ -1,21 +1,48 @@
-import React, { useState } from 'react';
-import { View, KeyboardAvoidingView, Image, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import {
+  View,
+  AsyncStorage,
+  KeyboardAvoidingView,
+  Image,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet
+} from 'react-native';
 
 import api from '../services/api';
 
 import logo from '../assets/logo.png';
 
-export default function Login() {
+export default function Login({ navigation }) {
   const [email, setEmail] = useState('');
   const [techs, setTechs] = useState('');
 
-  async function handleSubmit() { }
+  useEffect(() => {
+    AsyncStorage.getItem('user').then(user => {
+      if (user) {
+        navigation.navigate('List');
+      }
+    });
+  }, []);
+
+  async function handleSubmit() {
+    const response = await api.post('/sessions', {
+      email
+    });
+
+    const { _id } = response.data;
+
+    await AsyncStorage.setItem('user', _id);
+    await AsyncStorage.setItem('techs', techs);
+
+    navigation.navigate('List');
+  }
 
   return (
     <KeyboardAvoidingView behavior="padding" style={styles.container}>
       <Image source={logo} />
       <View style={styles.form}>
-
         <Text style={styles.label}>SEU E-MAIL *</Text>
         <TextInput
           style={styles.input}
@@ -39,7 +66,7 @@ export default function Login() {
           onChangeText={setTechs}
         />
 
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity onPress={handleSubmit} style={styles.button}>
           <Text style={styles.buttonText}>Encontrar spots</Text>
         </TouchableOpacity>
       </View>
@@ -47,17 +74,16 @@ export default function Login() {
   );
 }
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   form: {
     alignSelf: 'stretch',
     paddingHorizontal: 30,
-    marginTop: 30,
+    marginTop: 30
   },
   label: {
     fontWeight: 'bold',
@@ -72,18 +98,18 @@ const styles = StyleSheet.create({
     color: '#444',
     height: 40,
     marginBottom: 20,
-    borderRadius: 2,
+    borderRadius: 2
   },
   button: {
     height: 42,
     backgroundColor: '#f05a5b',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 2,
+    borderRadius: 2
   },
   buttonText: {
     color: '#fff',
     fontWeight: 'bold',
-    fontSize: 10,
+    fontSize: 10
   }
-})
+});
