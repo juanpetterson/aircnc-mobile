@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
   SafeAreaView,
+  ScrollView,
   View,
   Image,
   StyleSheet,
@@ -26,17 +27,20 @@ export default function List() {
     <SafeAreaView style={styles.container}>
       <Image style={styles.logo} source={logo} />
 
-      {techs.map(tech => (
-        <SpotList key={tech} tech={tech} />
-      ))}
+      <ScrollView>
+        {techs.map(tech => (
+          <SpotList key={tech} tech={tech} />
+        ))}
+      </ScrollView>
     </SafeAreaView>
   );
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1
   },
+
   logo: {
     height: 32,
     resizeMode: 'contain',
