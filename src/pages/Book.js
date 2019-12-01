@@ -51,13 +51,13 @@ export default function Book({ navigation }) {
         onChangeText={setDate}
       />
       <TouchableOpacity onPress={handleSubmit} style={styles.button}>
-        <Text style={styles.button}>Solicitar reserva</Text>
+        <Text style={styles.buttonText}>Solicitar reserva</Text>
       </TouchableOpacity>
       <TouchableOpacity
         onPress={handleCancel}
         style={[styles.button, styles.cancelButton]}
       >
-        <Text style={styles.cancelButton}>Cancelar</Text>
+        <Text style={styles.buttonText}>Cancelar</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );
@@ -94,13 +94,13 @@ const styles = StyleSheet.create({
     borderRadius: 2
   },
   cancelButton: {
-    backgroundColor: '#ccc'
+    backgroundColor: '#ccc',
+    marginTop: 10
   },
 
   buttonText: {
     color: '#fff',
     fontWeight: 'bold',
-    fontSize: 10,
-    marginTop: 10
+    fontSize: 16
   }
 });

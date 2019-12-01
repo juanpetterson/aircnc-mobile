@@ -27,6 +27,7 @@ export default function Login({ navigation }) {
   }, []);
 
   async function handleSubmit() {
+    console.log('caiu');
     const response = await api.post('/sessions', {
       email
     });

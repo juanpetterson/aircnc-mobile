@@ -16,7 +16,7 @@ export default function List() {
   const [techs, setTechs] = useState([]);
 
   useEffect(() => {
-    AsyncStorage.setItem('techs', techs).then(storagedTechs => {
+    AsyncStorage.getItem('techs').then(storagedTechs => {
       const techsArray = storagedTechs.split(',').map(tech => tech.trim());
 
       setTechs(techsArray);
